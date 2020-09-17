@@ -1,0 +1,10 @@
+# number of machines 'n' in the system
+3
+# next n lines:
+# ID of machine, hostname, port
+1 mc01.example.org 1234
+2 mc02.example.org 1233
+# next n lines:
+# structure of neighbors, each line for one machine with respect to the same order as above
+2
+1
