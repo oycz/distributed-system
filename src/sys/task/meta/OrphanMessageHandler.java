@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class OrphanMessageHandler extends MetaTask {
 
     public OrphanMessageHandler(Server server) {
-        super(server, Settings.ORPHAN_MESSAGE_HANDLER_CLOCK_TYPE, new LinkedBlockingQueue<>());
+        super(server, Settings.ORPHAN_MESSAGE_HANDLER_CLOCK_TYPE, new LinkedBlockingQueue<>(), Settings.ORPHAN_MESSAGE_HANDLER);
     }
 
     @Override

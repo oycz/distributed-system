@@ -1,10 +1,10 @@
 package sys.task.meta;
 
 import sys.Server;
-import sys.clock.TimeStampClock;
+import sys.factory.MessageFactory;
 import sys.message.Message;
-import sys.message.meta.MetaTaskMessage;
 import sys.setting.Settings;
+import sys.util.CommandChecker;
 
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
@@ -16,14 +16,11 @@ public class CommandLine extends MetaTask {
     private static final Logger logger = Logger.getLogger(CommandLine.class.getName());
 
     public CommandLine(Server server) {
-        super(server, Settings.COMMAND_LINE_CLOCK_TYPE);
+        super(server, Settings.COMMAND_LINE_CLOCK_TYPE, Settings.COMMAND_LINE);
     }
 
     @Override
     public void run() {
-        String taskStarterId = Settings.TASK_STARTER;
-        String echoerId = Settings.ECHOER;
-        String taskNotifierId = Settings.TASK_NOTIFIER;
         BlockingQueue<Message> messageQueue = context.messageQueue;
         Scanner in = new Scanner(System.in);
         String line;
@@ -33,11 +30,14 @@ public class CommandLine extends MetaTask {
             if(line.equals("help")) {
                 logger.log(Level.INFO, "All possible commands: " + Settings.COMMANDS.toString());
             } else if(Settings.COMMANDS.contains(strs[0])) {
-                messageQueue.add(new MetaTaskMessage(line, taskNotifierId, new TimeStampClock(System.currentTimeMillis()),
-                        context.LOCALHOST, context.PORT , context.LOCALHOST, context.PORT));
+                String warning = CommandChecker.check(strs);
+                if(warning != null) {
+                    logger.log(Level.WARNING, warning);
+                } else {
+                    messageQueue.add(MessageFactory.taskStartNotifierMessage(strs));
+                }
             } else {
-                messageQueue.add(new MetaTaskMessage(line, echoerId, new TimeStampClock(System.currentTimeMillis()),
-                        context.LOCALHOST, context.PORT , context.LOCALHOST, context.PORT));
+                messageQueue.add(MessageFactory.echoerMessage(line));
             }
         }
     }

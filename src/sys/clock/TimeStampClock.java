@@ -9,7 +9,7 @@ public class TimeStampClock extends Clock<Long> {
     }
 
     public TimeStampClock(String nodeId) {
-        this.timestampClock = 0;
+        this.timestampClock = System.currentTimeMillis();
     }
 
     public TimeStampClock(Long timestamp) {

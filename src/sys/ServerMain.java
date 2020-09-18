@@ -1,29 +1,18 @@
 package sys;
 
+import sys.setting.Settings;
+
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServerMain {
 
-    final static String CONFIG_PATH = "config/config";
-    final static Map<String, String> DEFAULT_PARAMS = new HashMap<>();
-    final static Set<String> NECESSARY_PARAMS = new LinkedHashSet<>();
-
-    static {
-        DEFAULT_PARAMS.put("clock", "lamport");
-        NECESSARY_PARAMS.add("node_id");
-        NECESSARY_PARAMS.add("clock");
-    }
-
-    static Map<String, String> argMap;
-//    static Clock clock;
-    static Config config;
-    static Server server;
+    private static Map<String, String> argMap;
+    private static Config config;
+    private static Server server;
 
     static Logger logger = Logger.getLogger(ServerMain.class.getName());
 
@@ -37,7 +26,7 @@ public class ServerMain {
             } else {
                 String k = arg.split("=")[0].trim();
                 String v = arg.split("=")[1].trim();
-                if(!NECESSARY_PARAMS.contains(k)) {
+                if(!Settings.NECESSARY_PARAMS.contains(k)) {
                     logger.log(Level.SEVERE, "Argument " + k + " does not exist");
                     return;
                 } else {
@@ -46,39 +35,32 @@ public class ServerMain {
             }
         }
         // add default values
-        for(String defaultK: DEFAULT_PARAMS.keySet()) {
+        for(String defaultK: Settings.DEFAULT_PARAMS.keySet()) {
             if(!argMap.containsKey(defaultK)) {
-                argMap.put(defaultK, DEFAULT_PARAMS.get(defaultK));
+                argMap.put(defaultK, Settings.DEFAULT_PARAMS.get(defaultK));
             }
         }
         // handle missing arguments
-        for(String param: NECESSARY_PARAMS) {
+        for(String param: Settings.NECESSARY_PARAMS) {
             if(!argMap.containsKey(param)) {
-                logger.log(Level.SEVERE, "Argument missing. All necessary parameters: " + NECESSARY_PARAMS.toString());
+                logger.log(Level.SEVERE, "Argument missing. All necessary parameters: " + Settings.NECESSARY_PARAMS.toString());
                 return;
             }
         }
         ServerMain.argMap = argMap;
 
         // read config
-        config = new Config(CONFIG_PATH);
+        config = new Config(Settings.CONFIG_PATH);
 
-        Node thisNode = config.nodesById.get(argMap.get("node_id"));
+        Node thisNode = config.nodesById.get(ServerMain.argMap.get("node_id"));
 
         // init clock
         String clockType = argMap.get("clock");
-//        Clock.setClockType(clockType);
-//        Clock.setNodeId(thisNode.id);
-//        clock = Clock.getInstance();
 
         // init connection
-//        server = new Server(config.nodeNum, thisNode, clock);
         server = new Server(config.nodeNum, thisNode);
 
         // start server
         server.start();
-
-//        CommandLine command = new CommandLine(server);
-//        command.start();
     }
 }

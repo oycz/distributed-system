@@ -2,7 +2,7 @@ package sys.task;
 
 import sys.Server;
 import sys.clock.Clock;
-import sys.clock.ClockFactory;
+import sys.factory.ClockFactory;
 import sys.message.Message;
 import sys.util.UUIDUtil;
 
@@ -23,17 +23,18 @@ public abstract class Task implements Runnable {
         this.messageQueue = new PriorityBlockingQueue<>();
     }
 
-    public Task(Server server, String clockType, BlockingQueue<Message> messageQueue) {
-        this.context = server;
-        this.clock = ClockFactory.newClock(clockType);
-        this.taskId = UUIDUtil.randomUUID();
-        this.messageQueue = messageQueue;
-    }
-
     public Task(Server server, String clockType, String taskId) {
         this.context = server;
         this.clock = ClockFactory.newClock(clockType);
         this.taskId = taskId;
+        this.messageQueue = new PriorityBlockingQueue<>();
+    }
+
+    public Task(Server server, String clockType, BlockingQueue<Message> messageQueue, String taskId) {
+        this.context = server;
+        this.clock = ClockFactory.newClock(clockType);
+        this.taskId = taskId;
+        this.messageQueue = messageQueue;
     }
 
     public void offer(Message message) {
@@ -45,7 +46,6 @@ public abstract class Task implements Runnable {
         Message message = null;
         while(true) {
             try {
-                System.out.println(messageQueue + "..." + context);
                 message = messageQueue.take();
             } catch (InterruptedException e) {
                 e.printStackTrace();

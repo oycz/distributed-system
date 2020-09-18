@@ -1,8 +1,9 @@
-package sys.task.meta;
+package sys.task.app;
 
 import sys.Server;
 import sys.message.Message;
 import sys.setting.Settings;
+import sys.task.Task;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.logging.Logger;
 
-public class PortListener extends MetaTask {
+public class PortListener extends Task {
     private final Socket socket;
     private static final Logger logger = Logger.getLogger(PortListener.class.getName());
 

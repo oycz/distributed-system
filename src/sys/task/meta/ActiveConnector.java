@@ -4,7 +4,6 @@ import sys.Node;
 import sys.Server;
 import sys.message.Message;
 import sys.setting.Settings;
-import sys.util.ConnectorUtil;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -22,19 +21,16 @@ public class ActiveConnector extends MetaTask {
 
 
     public ActiveConnector(Server server) {
-        super(server, Settings.ACTIVE_CONNECTOR_CLOCK_TYPE);
+        super(server, Settings.ACTIVE_CONNECTOR_CLOCK_TYPE, Settings.ACTIVE_CONNECTOR);
+        logger.log(Level.INFO, "activeConnector run");
     }
 
     @Override
     public void run() {
-//        while(true) {
-//            if(context.nonConnectedNeighbors.size() == 0) {
-//                return;
-//            }
-            for(Node n: context.nonConnectedNeighbors) {
+            for(Node n: context.neighbors) {
                 if(!checkAvail(n)) {
                     if(!tried.contains(n)) {
-                        logger.log(Level.INFO, "Remote server " + n.hostname + ":" + n.port +" not open");
+                        logger.log(Level.INFO, "Remote server " + n.hostname +" not open");
                         tried.add(n);
                     }
                     continue;
@@ -43,7 +39,7 @@ public class ActiveConnector extends MetaTask {
                 try {
                     socket = new Socket(n.hostname, n.port);
                     logger.log(Level.INFO, "Active connected " + socket.getInetAddress());
-                    ConnectorUtil.initSocket(socket, context);
+                    Server.initSocket(socket, context);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -56,7 +52,7 @@ public class ActiveConnector extends MetaTask {
         try {
             s = new Socket();
             s.setReuseAddress(true);
-            SocketAddress sa = new InetSocketAddress(n.hostname, n.port);
+            SocketAddress sa = new InetSocketAddress(n.hostname, Settings.HEARTBEAT_PORT);
             s.connect(sa, Settings.CHECK_AVAIL_TIMEOUT);
         } catch (IOException e) {
             return false;

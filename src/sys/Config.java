@@ -1,5 +1,7 @@
 package sys;
 
+import sys.util.StringUtil;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -34,7 +36,7 @@ public class Config {
         while((line = reader.readLine()) != null) {
             line = line.split("#")[0].trim();
             String[] lineParams = line.split("\\s+");
-            if(((!isNumeric(lineParams[0]) || Integer.parseInt(lineParams[0]) < 0))) {
+            if(((!StringUtil.isNumeric(lineParams[0]) || Integer.parseInt(lineParams[0]) < 0))) {
                 continue;
             }
             if(nodeNum == null) {
@@ -59,15 +61,6 @@ public class Config {
         this.nodesByIdx = nodesByIdx;
         this.nodeNum = nodeNum;
         this.nodeNeighbors = conn;
-    }
-
-    private static boolean isNumeric(String str) {
-        try {
-            Integer.parseInt(str);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
     }
 }
 

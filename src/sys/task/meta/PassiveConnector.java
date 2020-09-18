@@ -1,10 +1,8 @@
 package sys.task.meta;
 
-
 import sys.Server;
 import sys.message.Message;
 import sys.setting.Settings;
-import sys.util.ConnectorUtil;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -18,7 +16,8 @@ public class PassiveConnector extends MetaTask {
     private ServerSocket ss;
 
     public PassiveConnector(Server server) {
-        super(server, Settings.PASSIVE_CONNECTOR_CLOCK_TYPE);
+        super(server, Settings.PASSIVE_CONNECTOR_CLOCK_TYPE, Settings.PASSIVE_CONNECTOR);
+        logger.log(Level.INFO, "passiveConnector run");
     }
 
     @Override
@@ -29,27 +28,16 @@ public class PassiveConnector extends MetaTask {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        while(true) {
-//            synchronized (PassiveConnector.class) {
-                if(context.nonConnectedNeighbors.size() == 0) {
-                    return;
-                }
-                Socket socket;
-                try {
-                    socket = ss.accept();
-                    for(Thread thread: context.taskThreads) {
-                        System.out.println(thread);
-                    }
-//                    String socketAddress = socket.getInetAddress().toString();
-//                    if(ConnectorUtil.containsNode(context.nonConnectedNeighbors, socketAddress)) {
-//                        continue;
-//                    }
-                    logger.log(Level.INFO, "Passive connected by " + socket.getInetAddress());
-                    ConnectorUtil.initSocket(socket, context);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-//            }
+//        while(true) {
+        for(int i = 0; i < context.neighbors.size(); i++) {
+            Socket socket;
+            try {
+                socket = ss.accept();
+                logger.log(Level.INFO, "Passive connected by " + socket.getInetAddress());
+                Server.initSocket(socket, context);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

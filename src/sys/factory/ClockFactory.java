@@ -1,5 +1,6 @@
-package sys.clock;
+package sys.factory;
 
+import sys.clock.Clock;
 import sys.setting.Settings;
 
 import java.lang.reflect.InvocationTargetException;

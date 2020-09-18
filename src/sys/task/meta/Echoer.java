@@ -12,7 +12,7 @@ public class Echoer extends MetaTask {
     private Logger logger = Logger.getLogger(Echoer.class.getName());
 
     public Echoer(Server server) {
-        super(server, Settings.ECHOER_CLOCK_TYPE);
+        super(server, Settings.ECHOER_CLOCK_TYPE, Settings.ECHOER);
     }
 
     @Override
