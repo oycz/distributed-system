@@ -26,6 +26,7 @@ public abstract class RoutingAlgorithm {
 
     public abstract void forward(Message message);
 
+    // Can optimize using message queue (TODO)
     public static synchronized void send(Message message) {
         if(message.toHost == null || message.toHost.equals(context.LOCALHOST)) {
             context.offerMessage(message);

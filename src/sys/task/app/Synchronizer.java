@@ -27,7 +27,7 @@ public class Synchronizer extends Task {
         Broadcasting broadcasting = new Broadcasting(context.neighbors, context, false, false);
         while((Integer) clock.clock < maxRound) {
             logger.log(Level.INFO, "Synchronizer " + taskId + ": Round " + clock.toString() + " started");
-            Message forwardMessage = MessageFactory.appMessage(new String[0], clock, taskId);
+            Message forwardMessage = MessageFactory.appMessage(new String[0], clock, taskId, context.LOCALHOST, context.PORT);
             broadcasting.forward(forwardMessage);
             int neighborSize = context.neighbors.size();
             for(int curRoundMessages = 1; curRoundMessages <= neighborSize; curRoundMessages++) {
@@ -43,7 +43,7 @@ public class Synchronizer extends Task {
                 }
                 logger.log(Level.INFO, "Received message from " + message.fromHost + " in round " + clock.toString());
             }
-            logger.log(Level.INFO, "Round " + clock + " finished");
+            logger.log(Level.INFO, "Round " + ((Integer)clock.clock + 1) + " finished");
             this.clock.increase();
         }
     }

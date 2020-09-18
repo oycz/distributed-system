@@ -36,7 +36,7 @@ public class MessageFactory {
         return new MetaTaskMessage(String.join(" ", args), new TimeStampClock(), Settings.TASK_STARTER);
     }
 
-    public static Message appMessage(String[] args, Clock clock, String taskId) {
-        return new AppMessage(String.join(" ", args), clock, taskId);
+    public static Message appMessage(String[] args, Clock clock, String taskId, String fromHost, Integer fromPort) {
+        return new AppMessage(String.join(" ", args), clock, taskId, fromHost, fromPort);
     }
 }
