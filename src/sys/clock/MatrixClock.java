@@ -4,19 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 // TODO
-public class MatrixClock extends Clock<Map> {
-
-    private Map<String, Map<String, Integer>> matrixClock;
+public class MatrixClock extends Clock<Map<String, Map<String, Integer>>> {
 
     public MatrixClock(String nodeId) {
-        this.matrixClock = new HashMap<>();
+        this.clock = new HashMap<>();
         Map<String, Integer> self = new HashMap<>();
         self.put(nodeId, 0);
-        matrixClock.put(nodeId, self);
+        clock.put(nodeId, self);
     }
 
     @Override
-    public int compareTo(Map o) {
+    public void increase() {
+
+    }
+
+    @Override
+    public int compareTo(Clock o) {
         return 0;
     }
 }

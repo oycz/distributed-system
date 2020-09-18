@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +18,8 @@ public class Server {
 
     private final int netNodeNumber;
     private final static Logger logger = Logger.getLogger(Server.class.getName());
-    private final PriorityBlockingQueue<Message> messageQueue;
+//    private final PriorityBlockingQueue<Message> messageQueue;
+    private final BlockingQueue<Message> messageQueue;
     private final Map<String, Task> idToTask = new HashMap<>();
 
     public final Map<String, Socket> sockets = new HashMap<>();
@@ -31,7 +33,7 @@ public class Server {
         this.PORT = node.port;
         this.neighbors = node.neighbors;
         LOCALHOST = InetAddress.getLocalHost().toString();
-        this.messageQueue = new PriorityBlockingQueue<>();
+        this.messageQueue = new LinkedBlockingQueue<>();
         this.taskThreads = new HashSet<>();
     }
 

@@ -4,6 +4,7 @@ import sys.Server;
 import sys.clock.Clock;
 import sys.factory.ClockFactory;
 import sys.message.Message;
+import sys.message.MessageComparator;
 import sys.util.UUIDUtil;
 
 import java.util.concurrent.BlockingQueue;
@@ -20,7 +21,7 @@ public abstract class Task implements Runnable {
         this.context = server;
         this.clock = ClockFactory.newClock(clockType);
         this.taskId = UUIDUtil.randomUUID();
-        this.messageQueue = new PriorityBlockingQueue<>();
+        this.messageQueue = new PriorityBlockingQueue<>(100, new MessageComparator());
     }
 
     public Task(Server server, String clockType, String taskId) {

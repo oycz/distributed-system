@@ -4,6 +4,7 @@ import sys.Server;
 import sys.message.Message;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ public abstract class RoutingAlgorithm {
     protected static Server context;
     private static final Logger logger = Logger.getLogger(RoutingAlgorithm.class.getName());
     private static final Map<String, ObjectOutputStream> outs = new HashMap<>();
+    private static final Map<String, ObjectInputStream> ins = new HashMap<>();
 
     public RoutingAlgorithm(Server server) {
         if(context == null) {
@@ -24,7 +26,7 @@ public abstract class RoutingAlgorithm {
 
     public abstract void forward(Message message);
 
-    public void send(Message message) {
+    public static synchronized void send(Message message) {
         if(message.toHost == null || message.toHost.equals(context.LOCALHOST)) {
             context.offerMessage(message);
             return;
@@ -32,7 +34,6 @@ public abstract class RoutingAlgorithm {
         ObjectOutputStream out;
         try {
             out = getOutputStream(message.toHost);
-            out.reset();
             if (out == null) {
                 logger.log(Level.INFO, "Channel hasn't been initialized");
             } else {
@@ -45,7 +46,7 @@ public abstract class RoutingAlgorithm {
         }
     }
 
-    private static ObjectOutputStream getOutputStream(String toHost) {
+    private synchronized static ObjectOutputStream getOutputStream(String toHost) {
         if(!outs.containsKey(toHost)) {
             ObjectOutputStream out = null;
             try {

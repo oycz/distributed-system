@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public abstract class Message implements Serializable, Comparable<Message>, Cloneable {
 
-    protected Clock clock;
+    public Clock clock;
     public String message;
     public String taskId;
     public String fromHost;

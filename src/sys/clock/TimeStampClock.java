@@ -3,21 +3,25 @@ package sys.clock;
 // TODO
 public class TimeStampClock extends Clock<Long> {
 
-    long timestampClock = 0;
-
     public TimeStampClock() {
-        this.timestampClock = System.currentTimeMillis();
+        this.clock = System.currentTimeMillis();
     }
 
     public TimeStampClock(String nodeId) {
-        this.timestampClock = System.currentTimeMillis();
+        this.clock = System.currentTimeMillis();
     }
 
     public TimeStampClock(Long timestamp) {
-        this.timestampClock = timestamp;
+        this.clock = timestamp;
     }
+
     @Override
-    public int compareTo(Long l) {
-        return (int) (timestampClock - l);
+    public void increase() {
+
+    }
+
+    @Override
+    public int compareTo(Clock o) {
+        return 0;
     }
 }

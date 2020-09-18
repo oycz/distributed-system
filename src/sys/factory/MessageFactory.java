@@ -1,7 +1,9 @@
 package sys.factory;
 
+import sys.clock.Clock;
 import sys.clock.TimeStampClock;
 import sys.message.Message;
+import sys.message.app.AppMessage;
 import sys.message.meta.MetaTaskMessage;
 import sys.setting.Settings;
 import sys.util.ArrayUtil;
@@ -32,5 +34,9 @@ public class MessageFactory {
 
     public static Message taskStarterMessage(String[] args) {
         return new MetaTaskMessage(String.join(" ", args), new TimeStampClock(), Settings.TASK_STARTER);
+    }
+
+    public static Message appMessage(String[] args, Clock clock, String taskId) {
+        return new AppMessage(String.join(" ", args), clock, taskId);
     }
 }
