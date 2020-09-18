@@ -13,7 +13,6 @@ public class ClockFactory {
         }
         Clock clock = null;
         try {
-//            clock = Settings.CLOCK_TYPES.get(clockType).getConstructor(new Class[] {String.class}).newInstance(nodeId);
             clock = (Clock) Settings.CLOCK_TYPES.get(clockType).getConstructor(new Class[0]).newInstance();
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

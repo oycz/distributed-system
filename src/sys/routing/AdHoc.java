@@ -1,4 +1,4 @@
-package sys.routing_algorithm;
+package sys.routing;
 
 import sys.Server;
 import sys.message.Message;

@@ -1,4 +1,4 @@
-package sys.routing_algorithm;
+package sys.routing;
 
 import sys.Node;
 import sys.Server;
@@ -43,7 +43,6 @@ public class Broadcasting extends RoutingAlgorithm {
             }
             Message copy = null;
             try {
-//                System.out.println(message.clone());
                 copy = (Message) message.clone();
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();

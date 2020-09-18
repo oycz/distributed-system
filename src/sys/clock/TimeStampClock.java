@@ -1,5 +1,6 @@
 package sys.clock;
 
+// TODO
 public class TimeStampClock extends Clock<Long> {
 
     long timestampClock = 0;

@@ -1,4 +1,4 @@
-package sys.routing_algorithm;
+package sys.routing;
 
 import sys.Server;
 import sys.message.Message;
@@ -31,7 +31,6 @@ public abstract class RoutingAlgorithm {
         }
         ObjectOutputStream out;
         try {
-//            out = new ObjectOutputStream(context.sockets.get(message.toHost).getOutputStream());
             out = getOutputStream(message.toHost);
             out.reset();
             if (out == null) {

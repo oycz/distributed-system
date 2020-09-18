@@ -28,8 +28,7 @@ public class PassiveConnector extends MetaTask {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        while(true) {
-        for(int i = 0; i < context.neighbors.size(); i++) {
+        while(true) {
             Socket socket;
             try {
                 socket = ss.accept();

@@ -39,7 +39,6 @@ public class PortListener extends Task {
         while(true) {
             try {
                 message = (Message) in.readObject();
-//                logger.log(Level.INFO, "Message received: " + message.message);
                 context.messageQueue.add(message);
             } catch (EOFException e) {
                 try {
