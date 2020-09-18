@@ -22,13 +22,13 @@ public class TaskStartNotifier extends MetaTask {
     public void step(Message message) {
         String[] commands = message.message.split(" ");
         String taskId = commands[commands.length - 1];
-        if(context.idToTask.containsKey(taskId)) {
+        if(context.hasTask(taskId)) {
             logger.log(Level.INFO, "Task " + taskId + " already started");
             return;
         }
         logger.log(Level.INFO, "Starting task locally...");
         Message selfStarter = MessageFactory.taskStarterMessage(message.message);
-        context.messageQueue.offer(selfStarter);
+        context.offerMessage(selfStarter);
 
         logger.log(Level.INFO, "Notifying neighbors to start task...");
         Broadcasting broadcasting = new Broadcasting(context.neighbors, context, false);

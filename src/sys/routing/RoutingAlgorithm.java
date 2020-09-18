@@ -26,7 +26,7 @@ public abstract class RoutingAlgorithm {
 
     public void send(Message message) {
         if(message.toHost == null || message.toHost.equals(context.LOCALHOST)) {
-            context.messageQueue.offer(message);
+            context.offerMessage(message);
             return;
         }
         ObjectOutputStream out;

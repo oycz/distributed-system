@@ -10,18 +10,19 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Server {
 
     private final int netNodeNumber;
     private final static Logger logger = Logger.getLogger(Server.class.getName());
+    private final PriorityBlockingQueue<Message> messageQueue;
+    private final Map<String, Task> idToTask = new HashMap<>();
 
-    public final PriorityBlockingQueue<Message> messageQueue;
     public final Map<String, Socket> sockets = new HashMap<>();
     public final String LOCALHOST;
     public final int PORT;
-    public final Map<String, Task> idToTask = new HashMap<>();
     public final List<Node> neighbors;
     public final Set<Thread> taskThreads;
 
@@ -68,5 +69,30 @@ public class Server {
         Thread thread = new Thread(task);
         taskThreads.add(thread);
         thread.start();
+    }
+
+    public void offerMessageToTask(Message message, String taskId) {
+        if(!hasTask(taskId)) {
+            logger.log(Level.SEVERE, "No such task: " + taskId);
+        }
+        this.idToTask.get(taskId).offerMessage(message);
+    }
+
+    public boolean hasTask(String taskId) {
+        return idToTask.containsKey(taskId);
+    }
+
+    public void offerMessage(Message message) {
+        this.messageQueue.offer(message);
+    }
+
+    public Message takeMessage() {
+        Message message = null;
+        try {
+            message = this.messageQueue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return message;
     }
 }

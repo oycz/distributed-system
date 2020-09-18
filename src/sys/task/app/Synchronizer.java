@@ -18,7 +18,7 @@ public class Synchronizer extends Task {
         super(server, Settings.SYNCHRONIZER_CLOCK_TYPE, taskId);
         this.round = 0;
         this.maxRound = maxRound;
-        logger.log(Level.INFO, "Synchronizer started");
+        logger.log(Level.INFO, "Synchronizer started, max round is " + maxRound);
     }
 
     @Override

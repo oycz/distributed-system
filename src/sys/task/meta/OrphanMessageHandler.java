@@ -29,8 +29,8 @@ public class OrphanMessageHandler extends MetaTask {
 
     @Override
     public void step(Message message) {
-        if(context.idToTask.containsKey(message.taskId)) {
-            context.idToTask.get(message.taskId).offer(message);
+        if(context.hasTask(message.taskId)) {
+            context.offerMessageToTask(message, message.taskId);
         }
     }
 }

@@ -7,7 +7,6 @@ import sys.setting.Settings;
 import sys.util.CommandChecker;
 
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +20,6 @@ public class CommandLine extends MetaTask {
 
     @Override
     public void run() {
-        BlockingQueue<Message> messageQueue = context.messageQueue;
         Scanner in = new Scanner(System.in);
         String line;
         while(true) {
@@ -34,10 +32,10 @@ public class CommandLine extends MetaTask {
                 if(warning != null) {
                     logger.log(Level.WARNING, warning);
                 } else {
-                    messageQueue.add(MessageFactory.taskStartNotifierMessage(strs));
+                    context.offerMessage(MessageFactory.taskStartNotifierMessage(strs));
                 }
             } else {
-                messageQueue.add(MessageFactory.echoerMessage(line));
+                context.offerMessage(MessageFactory.echoerMessage(line));
             }
         }
     }

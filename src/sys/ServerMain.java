@@ -51,15 +51,11 @@ public class ServerMain {
 
         // read config
         config = new Config(Settings.CONFIG_PATH);
-
         Node thisNode = config.nodesById.get(ServerMain.argMap.get("node_id"));
-
         // init clock
         String clockType = argMap.get("clock");
-
         // init connection
         server = new Server(config.nodeNum, thisNode);
-
         // start server
         server.start();
     }

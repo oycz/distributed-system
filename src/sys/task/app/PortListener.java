@@ -39,7 +39,7 @@ public class PortListener extends Task {
         while(true) {
             try {
                 message = (Message) in.readObject();
-                context.messageQueue.add(message);
+                context.offerMessage(message);
             } catch (EOFException e) {
                 try {
                     socket.close();

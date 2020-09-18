@@ -37,7 +37,7 @@ public abstract class Task implements Runnable {
         this.messageQueue = messageQueue;
     }
 
-    public void offer(Message message) {
+    public void offerMessage(Message message) {
         this.messageQueue.offer(message);
     }
 
