@@ -7,7 +7,7 @@ import sys.message.Message;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Broadcasting extends RoutingAlgorithm {
+public class Broadcasting extends Routing {
 
     private List<Node> targetNodes;
     private boolean sendSelf = false;

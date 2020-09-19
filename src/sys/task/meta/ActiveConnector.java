@@ -3,7 +3,7 @@ package sys.task.meta;
 import sys.Node;
 import sys.Server;
 import sys.message.Message;
-import sys.setting.Settings;
+import sys.setting.Setting;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -21,7 +21,7 @@ public class ActiveConnector extends MetaTask {
 
 
     public ActiveConnector(Server server) {
-        super(server, Settings.ACTIVE_CONNECTOR_CLOCK_TYPE, Settings.ACTIVE_CONNECTOR);
+        super(server, Setting.ACTIVE_CONNECTOR_CLOCK_TYPE, Setting.ACTIVE_CONNECTOR);
         logger.log(Level.INFO, "activeConnector run");
     }
 
@@ -44,7 +44,6 @@ public class ActiveConnector extends MetaTask {
                     e.printStackTrace();
                 }
             }
-//        }
     }
 
     private boolean checkAvail(Node n) {
@@ -52,8 +51,8 @@ public class ActiveConnector extends MetaTask {
         try {
             s = new Socket();
             s.setReuseAddress(true);
-            SocketAddress sa = new InetSocketAddress(n.hostname, Settings.HEARTBEAT_PORT);
-            s.connect(sa, Settings.CHECK_AVAIL_TIMEOUT);
+            SocketAddress sa = new InetSocketAddress(n.hostname, Setting.HEARTBEAT_PORT);
+            s.connect(sa, Setting.CHECK_AVAIL_TIMEOUT);
         } catch (IOException e) {
             return false;
         } finally {

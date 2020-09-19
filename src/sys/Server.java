@@ -18,7 +18,6 @@ public class Server {
 
     private final int netNodeNumber;
     private final static Logger logger = Logger.getLogger(Server.class.getName());
-//    private final PriorityBlockingQueue<Message> messageQueue;
     private final BlockingQueue<Message> messageQueue;
     private final Map<String, Task> idToTask = new HashMap<>();
 
@@ -74,9 +73,7 @@ public class Server {
     }
 
     public void offerMessageToTask(Message message, String taskId) {
-        if(!hasTask(taskId)) {
-            logger.log(Level.SEVERE, "No such task: " + taskId);
-        }
+        logger.log(Level.INFO, "Offered message to " + taskId + ", message is " + message.message + " clock is: " + message.clock);
         this.idToTask.get(taskId).offerMessage(message);
     }
 

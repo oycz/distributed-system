@@ -1,6 +1,6 @@
 package sys;
 
-import sys.setting.Settings;
+import sys.setting.Setting;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 public class ServerMain {
 
-    private static Map<String, String> argMap;
     private static Config config;
     private static Server server;
 
@@ -26,7 +25,7 @@ public class ServerMain {
             } else {
                 String k = arg.split("=")[0].trim();
                 String v = arg.split("=")[1].trim();
-                if(!Settings.NECESSARY_PARAMS.contains(k)) {
+                if(!Setting.NECESSARY_PARAMS.containsKey(k)) {
                     logger.log(Level.SEVERE, "Argument " + k + " does not exist");
                     return;
                 } else {
@@ -35,25 +34,41 @@ public class ServerMain {
             }
         }
         // add default values
-        for(String defaultK: Settings.DEFAULT_PARAMS.keySet()) {
+        for(String defaultK: Setting.DEFAULT_PARAMS.keySet()) {
             if(!argMap.containsKey(defaultK)) {
-                argMap.put(defaultK, Settings.DEFAULT_PARAMS.get(defaultK));
+                argMap.put(defaultK, Setting.DEFAULT_PARAMS.get(defaultK));
             }
         }
         // handle missing arguments
-        for(String param: Settings.NECESSARY_PARAMS) {
+        for(String param: Setting.NECESSARY_PARAMS.keySet()) {
             if(!argMap.containsKey(param)) {
-                logger.log(Level.SEVERE, "Argument missing. All necessary parameters: " + Settings.NECESSARY_PARAMS.toString());
+                logger.log(Level.SEVERE, "Argument missing. All necessary parameters: " + Setting.NECESSARY_PARAMS.toString());
+                return;
+            } else if(!Setting.NECESSARY_PARAMS.get(param).contains(argMap.get(param))) {
+                logger.log(Level.SEVERE, "Invalid argument \"" + param + "=" + argMap.get(param)
+                        +"\", all possible values: " + Setting.NECESSARY_PARAMS.get(param).toString());
                 return;
             }
         }
-        ServerMain.argMap = argMap;
 
+//        // log level
+//        String mode = argMap.get("mode");
+//        Logger root = Logger.getLogger("");
+//        if(mode.equals("debug")) {
+//            root.setLevel(Level.FINE);
+//        } else if(mode.equals("finer_debug")) {
+//            root.setLevel(Level.FINER);
+//        }
+
+        String configPath;
+        if(argMap.get("env").equals("test")) {
+            configPath = Setting.TEST_CONFIG_PATH;
+        } else {
+            configPath = Setting.CONFIG_PATH;
+        }
         // read config
-        config = new Config(Settings.CONFIG_PATH);
-        Node thisNode = config.nodesById.get(ServerMain.argMap.get("node_id"));
-        // init clock
-        String clockType = argMap.get("clock");
+        config = new Config(configPath);
+        Node thisNode = config.nodesById.get(argMap.get("node_id"));
         // init connection
         server = new Server(config.nodeNum, thisNode);
         // start server

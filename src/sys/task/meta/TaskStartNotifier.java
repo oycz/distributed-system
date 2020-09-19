@@ -4,7 +4,7 @@ import sys.Server;
 import sys.factory.MessageFactory;
 import sys.message.Message;
 import sys.routing.Broadcasting;
-import sys.setting.Settings;
+import sys.setting.Setting;
 import sys.task.Task;
 
 import java.util.logging.Level;
@@ -15,11 +15,11 @@ public class TaskStartNotifier extends MetaTask {
     private Logger logger = Logger.getLogger(Task.class.getName());
 
     public TaskStartNotifier(Server server) {
-        super(server, Settings.TASK_START_NOTIFIER_CLOCK_TYPE, Settings.TASK_START_NOTIFIER);
+        super(server, Setting.TASK_START_NOTIFIER_CLOCK_TYPE, Setting.TASK_START_NOTIFIER);
     }
 
     @Override
-    public void step(Message message) {
+    public synchronized void step(Message message) {
         String[] commands = message.message.split(" ");
         String taskId = commands[commands.length - 1];
         if(context.hasTask(taskId)) {

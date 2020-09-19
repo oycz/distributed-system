@@ -2,7 +2,7 @@ package sys.task.meta;
 
 import sys.Server;
 import sys.message.Message;
-import sys.setting.Settings;
+import sys.setting.Setting;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,7 +16,7 @@ public class PassiveConnector extends MetaTask {
     private ServerSocket ss;
 
     public PassiveConnector(Server server) {
-        super(server, Settings.PASSIVE_CONNECTOR_CLOCK_TYPE, Settings.PASSIVE_CONNECTOR);
+        super(server, Setting.PASSIVE_CONNECTOR_CLOCK_TYPE, Setting.PASSIVE_CONNECTOR);
         logger.log(Level.INFO, "passiveConnector run");
     }
 

@@ -1,27 +1,27 @@
 package sys.setting;
 
-import sys.clock.LamortClock;
+import sys.clock.LamportClock;
 import sys.clock.MatrixClock;
 import sys.clock.TimeStampClock;
 import sys.clock.VectorClock;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class Settings {
+
+public class Setting {
 
     public static final String CONFIG_PATH = "config/config";
+    public static final String TEST_CONFIG_PATH = "config/test_config";
+    public static final Integer TASK_QUEUE_INIT_CAPACITY = 100;
 
     public static final Map<String, Class> CLOCK_TYPES = new HashMap<>();
     public static final Set<String> COMMANDS = new HashSet<>(); // task classes
     public static final Map<String, String> DEFAULT_PARAMS = new HashMap<>();
-    public static final Set<String> NECESSARY_PARAMS = new HashSet<>();
+    public static final Map<String, List<String>> NECESSARY_PARAMS = new HashMap<>();
 
 
     static {
-        CLOCK_TYPES.put("lamport", LamortClock.class);
+        CLOCK_TYPES.put("lamport", LamportClock.class);
         CLOCK_TYPES.put("matrix", MatrixClock.class);
         CLOCK_TYPES.put("vector", VectorClock.class);
         CLOCK_TYPES.put("timestamp", TimeStampClock.class);
@@ -30,10 +30,21 @@ public class Settings {
         COMMANDS.add("eccentricity");
         COMMANDS.add("help");
 
-        NECESSARY_PARAMS.add("node_id");
-        NECESSARY_PARAMS.add("clock");
+        NECESSARY_PARAMS.put("node_id", new ArrayList<>());
+        NECESSARY_PARAMS.put("env", new ArrayList<>());
+//        NECESSARY_PARAMS.put("mode", new ArrayList<>());
 
-        DEFAULT_PARAMS.put("clock", "lamport");
+        for(int i = 0; i <= 1000; i++) {
+            NECESSARY_PARAMS.get("node_id").add(i + "");
+        }
+        NECESSARY_PARAMS.get("env").add("production");
+        NECESSARY_PARAMS.get("env").add("test");
+//        NECESSARY_PARAMS.get("mode").add("normal");
+//        NECESSARY_PARAMS.get("mode").add("debug");
+//        NECESSARY_PARAMS.get("mode").add("finer_debug");
+
+        DEFAULT_PARAMS.put("env", "production");
+//        DEFAULT_PARAMS.put("mode", "normal");
     }
 
     public static final Integer CHECK_AVAIL_TIMEOUT = 3000000;

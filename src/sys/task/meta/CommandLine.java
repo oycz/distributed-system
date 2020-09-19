@@ -3,7 +3,7 @@ package sys.task.meta;
 import sys.Server;
 import sys.factory.MessageFactory;
 import sys.message.Message;
-import sys.setting.Settings;
+import sys.setting.Setting;
 import sys.util.CommandChecker;
 
 import java.util.Scanner;
@@ -15,7 +15,7 @@ public class CommandLine extends MetaTask {
     private static final Logger logger = Logger.getLogger(CommandLine.class.getName());
 
     public CommandLine(Server server) {
-        super(server, Settings.COMMAND_LINE_CLOCK_TYPE, Settings.COMMAND_LINE);
+        super(server, Setting.COMMAND_LINE_CLOCK_TYPE, Setting.COMMAND_LINE);
     }
 
     @Override
@@ -26,8 +26,8 @@ public class CommandLine extends MetaTask {
             line = String.join(" ", in.nextLine().split("\\s+"));
             String[] strs = line.split(" ");
             if(line.equals("help")) {
-                logger.log(Level.INFO, "All possible commands: " + Settings.COMMANDS.toString());
-            } else if(Settings.COMMANDS.contains(strs[0])) {
+                logger.log(Level.INFO, "All possible commands: " + Setting.COMMANDS.toString());
+            } else if(Setting.COMMANDS.contains(strs[0])) {
                 String warning = CommandChecker.check(strs);
                 if(warning != null) {
                     logger.log(Level.WARNING, warning);

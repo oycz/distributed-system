@@ -11,14 +11,14 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class RoutingAlgorithm {
+public abstract class Routing {
 
     protected static Server context;
-    private static final Logger logger = Logger.getLogger(RoutingAlgorithm.class.getName());
+    private static final Logger logger = Logger.getLogger(Routing.class.getName());
     private static final Map<String, ObjectOutputStream> outs = new HashMap<>();
     private static final Map<String, ObjectInputStream> ins = new HashMap<>();
 
-    public RoutingAlgorithm(Server server) {
+    public Routing(Server server) {
         if(context == null) {
             this.context = server;
         }
@@ -39,7 +39,8 @@ public abstract class RoutingAlgorithm {
                 logger.log(Level.INFO, "Channel hasn't been initialized");
             } else {
                 out.writeObject(message);
-                logger.log(Level.INFO, "Sent " + message.toHost);
+                out.reset();
+                logger.log(Level.INFO, "Sent message to " + message.toHost + ", clock is " + message.clock + ", message is " + message.message);
             }
         } catch (IOException e) {
             e.printStackTrace();

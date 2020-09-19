@@ -2,7 +2,7 @@ package sys.task.app;
 
 import sys.Server;
 import sys.message.Message;
-import sys.setting.Settings;
+import sys.setting.Setting;
 import sys.task.Task;
 
 import java.io.EOFException;
@@ -16,7 +16,7 @@ public class PortListener extends Task {
     private static final Logger logger = Logger.getLogger(PortListener.class.getName());
 
     public PortListener(Socket socket, Server server) {
-        super(server, Settings.PORT_LINSTENER_CLOCK_TYPE);
+        super(server, Setting.PORT_LINSTENER_CLOCK_TYPE);
         this.socket = socket;
     }
 

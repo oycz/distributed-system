@@ -3,7 +3,7 @@ package sys.routing;
 import sys.Server;
 import sys.message.Message;
 
-public class AdHoc extends RoutingAlgorithm {
+public class AdHoc extends Routing {
 
     public AdHoc(Server server) {
         super(server);
