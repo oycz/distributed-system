@@ -46,6 +46,16 @@ public class ActiveConnector extends MetaTask {
             }
     }
 
+    @Override
+    protected Message pre() {
+        return null;
+    }
+
+    @Override
+    protected void step(Message message) {
+
+    }
+
     private boolean checkAvail(Node n) {
         Socket s = null;
         try {
@@ -63,10 +73,4 @@ public class ActiveConnector extends MetaTask {
         }
         return true;
     }
-
-    @Override
-    public void step(Message message) {
-
-    }
-
 }

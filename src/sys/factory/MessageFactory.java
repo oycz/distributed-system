@@ -40,10 +40,12 @@ public class MessageFactory {
         return new MetaTaskMessage(String.join(" ", args), new TimeStampClock(), Setting.TASK_STARTER);
     }
 
+    public static Message appMessage(String line, Clock clock, String taskId, String fromHost, Integer fromPort) {
+        return new AppMessage(line, clock, taskId, fromHost, fromPort);
+    }
+
     public static Message appMessage(String[] args, Clock clock, String taskId, String fromHost, Integer fromPort) {
-        return new AppMessage(String.join(" ", args) + " " + UUIDUtil.randomUUID(), clock, taskId, fromHost, fromPort);
-//        AppMessage message = new AppMessage(String.join(" ", args), clock, taskId, fromHost, fromPort);
-//        logger.log(Level.INFO, "New app message, clock: " + message.clock);
-//        return message;
+//        return new AppMessage(String.join(" ", args) + " " + UUIDUtil.randomUUID(), clock, taskId, fromHost, fromPort);
+        return new AppMessage(String.join(" ", args), clock, taskId, fromHost, fromPort);
     }
 }

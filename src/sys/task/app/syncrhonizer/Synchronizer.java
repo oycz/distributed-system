@@ -1,4 +1,4 @@
-package sys.task.app;
+package sys.task.app.syncrhonizer;
 
 import sys.Server;
 import sys.factory.MessageFactory;
@@ -13,42 +13,32 @@ import java.util.logging.Logger;
 public class Synchronizer extends Task {
 
     private static final Logger logger = Logger.getLogger(Synchronizer.class.getName());
-    private int maxRound;
+    protected int maxRound;
 
     public Synchronizer(Server server, String taskId, int maxRound) {
         super(server, Setting.SYNCHRONIZER_CLOCK_TYPE, taskId);
         this.maxRound = maxRound;
-        logger.log(Level.INFO, "Synchronizer started, max round is " + maxRound);
+        logger.log(Level.INFO, "Synchronizer " + taskId + " started, max round is " + maxRound);
     }
 
     @Override
     public void run() {
+        Long start = System.currentTimeMillis();
         Message message;
         Broadcasting broadcasting = new Broadcasting(context.neighbors, context, false, false);
         while((Integer) clock.clock < maxRound) {
             logger.log(Level.INFO, "Synchronizer " + taskId + ": Round " + clock + " started");
-            Message forwardMessage = MessageFactory.appMessage(new String[0], clock, taskId, context.LOCALHOST, context.PORT);
+            Message forwardMessage = pre();
             broadcasting.forward(forwardMessage);
             int neighborSize = context.neighbors.size();
             for(int curRoundMessages = 1; curRoundMessages <= neighborSize; curRoundMessages++) {
-                long startTime = System.currentTimeMillis();
                 try {
                     while(true) {
                         message = messageQueue.take();
-                        long time = System.currentTimeMillis();
-                        if(time - startTime > 3000) {
-                            logger.log(Level.SEVERE, "Stuck at round " + clock + ", message queue size is " + messageQueue.size());
-                            logger.log(Level.SEVERE, "All messages in message queue: ");
-                            for(Message m: messageQueue) {
-                                System.out.println(m.message + "..." + m.clock.clock);
-                            }
-                            logger.log(Level.SEVERE, "Message at hand: ");
-                            System.out.println(message.message + "..." + message.clock);
-                            return;
-                        }
                         if(message.clock.compareTo(this.clock) == 0) {
                             logger.log(Level.INFO, "Received message from " + message.fromHost + " in round " + clock
                                     + " message is " + message.message + ", clock is " + clock);
+                            step(message);
                             break;
                         } else {
                             messageQueue.offer(message);
@@ -61,9 +51,16 @@ public class Synchronizer extends Task {
             logger.log(Level.INFO, "Round " + clock + " finished");
             this.clock.increase();
         }
+        Long end = System.currentTimeMillis();
+        logger.log(Level.INFO, "Synchronizer completed, costs " + ((double) (end - start) / 1000) + " seconds in total");
     }
 
     @Override
-    public void step(Message message) {
+    protected Message pre() {
+        return MessageFactory.appMessage(new String[0], clock, taskId, context.LOCALHOST, context.PORT);
+    }
+
+    @Override
+    protected void step(Message message) {
     }
 }

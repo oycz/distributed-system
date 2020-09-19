@@ -19,6 +19,11 @@ public class TaskStartNotifier extends MetaTask {
     }
 
     @Override
+    protected Message pre() {
+        return null;
+    }
+
+    @Override
     public synchronized void step(Message message) {
         String[] commands = message.message.split(" ");
         String taskId = commands[commands.length - 1];

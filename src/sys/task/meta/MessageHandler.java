@@ -23,7 +23,12 @@ public class MessageHandler extends MetaTask {
     }
 
     @Override
-    public void step(Message message) {
+    protected Message pre() {
+        return null;
+    }
+
+    @Override
+    protected void step(Message message) {
         String taskIdToOffer = message.taskId;
         if(context.hasTask(taskIdToOffer)) {
             context.offerMessageToTask(message, taskIdToOffer);

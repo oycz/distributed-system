@@ -4,7 +4,8 @@ import sys.Server;
 import sys.message.Message;
 import sys.setting.Setting;
 import sys.task.Task;
-import sys.task.app.Synchronizer;
+import sys.task.app.syncrhonizer.EccentricityCalculator;
+import sys.task.app.syncrhonizer.Synchronizer;
 
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -20,14 +21,19 @@ public class TaskStarter extends MetaTask {
     }
 
     @Override
-    public void step(Message message) {
+    protected Message pre() {
+        return null;
+    }
+
+    @Override
+    protected void step(Message message) {
         String[] strs = message.message.split(" ");
         String taskName = strs[0];
         String taskId = strs[strs.length - 1];
         if(context.hasTask(taskId)) {
             return;
         }
-        logger.log(Level.INFO, "Starting task...");
+        logger.log(Level.INFO, "Starting task" + taskName + ", task id is " + taskId + "...");
         String[] params = Arrays.copyOfRange(strs, 1, strs.length - 1);
 
         switch (taskName) {
@@ -38,7 +44,9 @@ public class TaskStarter extends MetaTask {
                 break;
             }
             case "eccentricity": {
-                // TODO
+                int maxRound = context.NET_NODE_NUMBER;
+                EccentricityCalculator eccentricityCalculator = new EccentricityCalculator(context, taskId, maxRound);
+                context.newTask(eccentricityCalculator);
                 break;
             }
         }

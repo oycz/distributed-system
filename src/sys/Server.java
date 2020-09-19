@@ -16,24 +16,26 @@ import java.util.logging.Logger;
 
 public class Server {
 
-    private final int netNodeNumber;
     private final static Logger logger = Logger.getLogger(Server.class.getName());
     private final BlockingQueue<Message> messageQueue;
     private final Map<String, Task> idToTask = new HashMap<>();
 
     public final Map<String, Socket> sockets = new HashMap<>();
     public final String LOCALHOST;
-    public final int PORT;
+    public final Integer PORT;
     public final List<Node> neighbors;
     public final Set<Thread> taskThreads;
+    public final Integer NET_NODE_NUMBER;
+    public final String NODE_ID;
 
-    public Server(int netNodeNumber, Node node) throws IOException {
-        this.netNodeNumber = netNodeNumber;
+    public Server(int netNodeNumber, Node node, String nodeId) throws IOException {
+        this.NET_NODE_NUMBER = netNodeNumber;
         this.PORT = node.port;
         this.neighbors = node.neighbors;
         LOCALHOST = InetAddress.getLocalHost().toString();
         this.messageQueue = new LinkedBlockingQueue<>();
         this.taskThreads = new HashSet<>();
+        this.NODE_ID = nodeId;
     }
 
     public void start() {

@@ -29,11 +29,17 @@ public class OrphanMessageHandler extends MetaTask {
     }
 
     @Override
-    public synchronized void step(Message message) {
+    protected Message pre() {
+        return null;
+    }
+
+    @Override
+    protected void step(Message message) {
         if(context.hasTask(message.taskId)) {
             messageQueue.remove(message);
             context.offerMessageToTask(message, message.taskId);
             logger.log(Level.FINER, "Orphan message handler offered message to task " + message.taskId);
         }
     }
+
 }

@@ -55,7 +55,12 @@ public class PortListener extends Task {
     }
 
     @Override
-    public void step(Message message) {
+    protected Message pre() {
+        return null;
+    }
+
+    @Override
+    protected void step(Message message) {
 
     }
 }

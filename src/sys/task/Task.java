@@ -56,5 +56,7 @@ public abstract class Task implements Runnable {
         }
     }
 
-    public abstract void step(Message message);
+    protected abstract Message pre();
+
+    protected abstract void step(Message message);
 }

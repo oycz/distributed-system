@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 public class ServerMain {
 
-    private static Config config;
     private static Server server;
 
     static Logger logger = Logger.getLogger(ServerMain.class.getName());
@@ -67,10 +66,11 @@ public class ServerMain {
             configPath = Setting.CONFIG_PATH;
         }
         // read config
-        config = new Config(configPath);
-        Node thisNode = config.nodesById.get(argMap.get("node_id"));
+        Config config = new Config(configPath);
+        String nodeId = argMap.get("node_id");
+        Node thisNode = config.nodesById.get(nodeId);
         // init connection
-        server = new Server(config.nodeNum, thisNode);
+        server = new Server(config.nodeNum, thisNode, nodeId);
         // start server
         server.start();
     }

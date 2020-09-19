@@ -41,7 +41,12 @@ public class CommandLine extends MetaTask {
     }
 
     @Override
-    public void step(Message message) {
+    protected Message pre() {
+        return null;
+    }
+
+    @Override
+    protected void step(Message message) {
 
     }
 }
