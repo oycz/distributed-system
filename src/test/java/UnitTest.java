@@ -1,9 +1,11 @@
+import org.apache.log4j.*;
 import org.junit.Test;
 import sys.util.ArrayUtil;
 import sys.util.CommandChecker;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Enumeration;
 
 public class UnitTest {
 
@@ -39,5 +41,16 @@ public class UnitTest {
     @Test
     public void testJoin() {
         System.out.println(String.join(" ", new String[0]));
+    }
+
+    @Test
+    public void testAppender() {
+        Logger logger = Logger.getLogger(UnitTest.class);
+        BasicConfigurator.configure();
+        Enumeration<Appender> e = Logger.getRootLogger().getAllAppenders();
+        while(e.hasMoreElements()) {
+            ((AppenderSkeleton) e.nextElement()).setThreshold(Level.DEBUG);
+        }
+        logger.debug("123");
     }
 }

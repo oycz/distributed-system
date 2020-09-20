@@ -32,14 +32,17 @@ public class Setting {
 
         NECESSARY_PARAMS.put("node_id", new ArrayList<>());
         NECESSARY_PARAMS.put("env", new ArrayList<>());
+        NECESSARY_PARAMS.put("mode", new ArrayList<>());
 
-        for(int i = 0; i <= 1000; i++) {
-            NECESSARY_PARAMS.get("node_id").add(i + "");
-        }
+        NECESSARY_PARAMS.get("node_id").add("");
         NECESSARY_PARAMS.get("env").add("production");
         NECESSARY_PARAMS.get("env").add("test");
+        NECESSARY_PARAMS.get("mode").add("normal");
+        NECESSARY_PARAMS.get("mode").add("debug");
+        NECESSARY_PARAMS.get("mode").add("finer_debug");
 
         DEFAULT_PARAMS.put("env", "production");
+        DEFAULT_PARAMS.put("mode", "normal");
     }
 
     public static final Integer CHECK_AVAIL_TIMEOUT = 3000000;
