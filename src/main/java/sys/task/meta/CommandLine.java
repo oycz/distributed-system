@@ -5,9 +5,6 @@ import sys.Server;
 import sys.factory.MessageFactory;
 import sys.message.Message;
 import sys.setting.Setting;
-import sys.util.CommandChecker;
-
-import java.util.Scanner;
 
 public class CommandLine extends MetaTask {
 
@@ -19,24 +16,13 @@ public class CommandLine extends MetaTask {
 
     @Override
     public void run() {
-        Scanner in = new Scanner(System.in);
-        String line;
-        while(true) {
-            line = String.join(" ", in.nextLine().split("\\s+"));
-            String[] strs = line.split(" ");
-            if(line.equals("help")) {
-                logger.info( "All possible commands: " + Setting.COMMANDS.toString());
-            } else if(Setting.COMMANDS.contains(strs[0])) {
-                String warning = CommandChecker.check(strs);
-                if(warning != null) {
-                    logger.error(warning);
-                } else {
-                    context.offerMessage(MessageFactory.taskStartNotifierMessage(strs));
-                }
-            } else {
-                context.offerMessage(MessageFactory.echoerMessage(line));
-            }
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        String[] line = {"eccentricity"};
+        context.offerMessage(MessageFactory.taskStartNotifierMessage(line));
     }
 
     @Override

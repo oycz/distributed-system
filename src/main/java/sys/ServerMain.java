@@ -4,9 +4,7 @@ import org.apache.log4j.*;
 import sys.setting.Setting;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ServerMain {
 
