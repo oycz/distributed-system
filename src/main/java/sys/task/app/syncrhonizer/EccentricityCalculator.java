@@ -5,8 +5,6 @@ import sys.Server;
 import sys.factory.MessageFactory;
 import sys.message.Message;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 public class EccentricityCalculator extends Synchronizer {
@@ -31,26 +29,10 @@ public class EccentricityCalculator extends Synchronizer {
         super.run();
         calNodeOfHops();
         logger.info("Compute completed");
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(context.NODE_ID + "\n");
         for(int i = 0; i < maxRound; i++) {
-            buffer.append(nodesOfHops.get(i).toString() + "\n");
+            logger.info("Hop " + i + " nodes: " + nodesOfHops.get(i).toString());
         }
-        buffer.append(this.eccentricity);
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter("node-" + context.NODE_ID + ".dat");
-            writer.write(buffer.toString());
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        logger.info("Eccentricity of this node is: " + this.eccentricity);
     }
 
     @Override
