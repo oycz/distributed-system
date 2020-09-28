@@ -51,7 +51,6 @@ public class EccentricityCalculator extends Synchronizer {
                 e.printStackTrace();
             }
         }
-        System.out.println(buffer.toString());
     }
 
     @Override
