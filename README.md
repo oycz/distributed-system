@@ -59,8 +59,8 @@ Now there are <code>2</code> application tasks:
 An application task can be started by user through command line.
 
 ## Play with it:
-There are two applications in the system for you to play with after start, one is <code>synchronizer</code>, another is <code>eccentricity calculator</code>. <br/>
-You may use following commands to start an application:
+Currently, there are two applications in the system for you to play with, one is <code>synchronizer</code>, another is <code>eccentricity calculator</code>. <br/>
+After completely startup, you may use following commands to activate one or more application:
 <ol>
 <li><code>synchronizer [max_round]</code></li>
 <li><code>eccentricity</code></li>
