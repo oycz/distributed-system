@@ -32,7 +32,7 @@ If <code>env</code> is specified as <code>test</code>, then the main class will 
 ## Code structure:
 #### Basic operation rule:
 The system is *message* and *task* based. <br/>
-In one node, there runs several threads named *task* (whose code is in the *task* package). One task is essentially a thread which is responsible for certain kind of work in the system.<br/>
+In one node, there runs several threads named *task* (whose code is in the *task* package). One task is essentially a thread which is responsible for doing certain kind of job in the system.<br/>
 Tasks communicate through *message* (whose code is in the message package). Every *message* and *task* has a *clock* (type of clock like lamport clock, vector clock or matrix clock depends on type of tasks), and every task has a *message queue*, which is a priority queue of message ordered by *clock* of that *message* to guarantee FIFO (or other arbitrary order) of messages.<br/>
 #### Tasks:
 There are two types of tasks, one is *meta task*, the other is *application task*. All *meta task*s were activated along with the node to ensure the basic operation of the system. <br/>
