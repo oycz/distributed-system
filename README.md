@@ -39,7 +39,7 @@ There are two types of tasks, one is *meta task*, the other is *application task
 ##### Meta task:
 Currently, there are <code>9</code> meta tasks:
 <ol>
-<li><code>ActiveConnector</code>, to actively connector the neighbors of this node after startup.</li>
+<li><code>ActiveConnector</code>, to actively connect the neighbors of this node after startup.</li>
 <li><code>PassiveConnector</code>, to passively listen and handle connection requests from other nodes.</li>
 <li><code>CommandLine</code>, to process user input.</li>
 <li><code>Echoer</code>, when user input some nonsense that is not command, <code>Echoer</code> is reponsible for echoing it back to command line. </li>
