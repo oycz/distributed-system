@@ -1,5 +1,5 @@
 
-# Distributed System <a href="https://github.com/oycz/distributed-system"><img style="display: inline;" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="35"/></a>[![HitCount](http://hits.dwyl.com/oycz/distributed-system.svg)](http://hits.dwyl.com/oycz/distributed-system)
+# Distributed System
 
 A distributed system with complete infrastructure, code is flexible and easy extension.
 
