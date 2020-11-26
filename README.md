@@ -4,8 +4,8 @@
 A distributed system with complete infrastructure, code is flexible and easy extension.
 
 ## Compile: 
-This project using maven for project management. <br/> 
-Go to the root directory which contains <code>pom.xml</code>. Run command <code>mvn package</code>.<br/>
+This project uses Maven for project management. <br/> 
+Go to the root directory that contains <code>pom.xml</code>. Run command <code>mvn package</code>.<br/>
 Now the compiled jar file should be already in <code>target</code> directory.
 
 ## Run:
